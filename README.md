@@ -11,11 +11,12 @@ A Flutter Application that aims to help the employees to record the working hour
 <div align='center' > 
 <img width='200px' src='assets/screenshots//WhatsApp Image 2024-03-08 at 22.45.35_7df611be.jpg'/>
 <img width='200px' src='assets/screenshots/WhatsApp Image 2024-03-08 at 22.45.37_550bd668.jpg'/>
+<img width='200px' src='assets/screenshots/WhatsApp Image 2024-03-08 at 22.45.36_51a24d03.jpg'/>
+<img width='200px' src='assets/screenshots/WhatsApp Image 2024-03-08 at 22.45.36_f294c3e5.jpg'/>
 </div>
 
 <div align='center' > 
-<img width='200px' src='assets/screenshots/WhatsApp Image 2024-03-08 at 22.45.36_51a24d03.jpg'/>
-<img width='200px' src='assets/screenshots/WhatsApp Image 2024-03-08 at 22.45.36_f294c3e5.jpg'/>
+
 </div>
 
 
