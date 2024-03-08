@@ -1,6 +1,6 @@
 # Hasab | حساب
 
-<div align='center' > 
+<div > 
 <img src='assets/icon.png' width='200px' />
 </div>
 
