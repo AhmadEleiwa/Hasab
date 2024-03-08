@@ -15,7 +15,7 @@ A Flutter application that helps employees log their working hours and calculate
 <img width='200px' src='assets/screenshots//WhatsApp Image 2024-03-08 at 22.45.35_7df611be.jpg'/>
 </div>
 
-<a href='output/hasab-android.apk'>Download for android</a>
+<a download href='output/hasab-android.apk'>Download for android</a>
 
 
 ## Windows
@@ -25,4 +25,4 @@ A Flutter application that helps employees log their working hours and calculate
 
 </div>
 
-<a href='output/hasab-windows.rar' >Download for Windows</a>
+<a download href='output/hasab-windows.rar' >Download for Windows</a>
