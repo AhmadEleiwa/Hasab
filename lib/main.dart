@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'view/HomePage.dart';
+import 'view/ArchivePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,38 +48,6 @@ class MyApp extends StatelessWidget {
       // home: const MyHomePage(
       //   title: 'حاسب ساعات العمل',
       // ),
-    );
-  }
-}
-
-class ArchivePage extends StatefulWidget {
-  const ArchivePage({super.key});
-
-  @override
-  State<ArchivePage> createState() => _ArchivePageState();
-}
-
-class _ArchivePageState extends State<ArchivePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1,
-        onTap: (int index) {
-          if (index == 0) Navigator.pushReplacementNamed(context, '/');
-          if (index == 1) Navigator.pushReplacementNamed(context, '/archive');
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'الرئيسية',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.archive),
-            label: 'الارشيف',
-          ),
-        ],
-      ),
     );
   }
 }
