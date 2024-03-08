@@ -22,6 +22,15 @@ class FileReader {
     return file.writeAsString(str);
   }
 
+  static Future<File> appendFile(
+    String fileName,
+    String str,
+  ) async {
+    File file = await getLocalFile(fileName);
+
+    return file.writeAsString(str, mode: FileMode.append);
+  }
+
   static Future<String> readFile(String fileName) async {
     try {
       final file = await getLocalFile(fileName);
