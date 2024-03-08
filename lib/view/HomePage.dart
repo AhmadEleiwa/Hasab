@@ -25,11 +25,26 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<WorkAtDay> items = [];
+  bool timer = false;
   String itemsToString() {
     String str = "";
     for (int i = 0; i < items.length; i++) {
       print(items[i].start.toString());
       str += items[i].start.toString() + ',' + items[i].end.toString() + "\n";
+    }
+    return str;
+  }
+
+  String selectedItemsToString() {
+    String str = "";
+    var selectedItems =
+        items.where((element) => element.selected == true).toList();
+    for (int i = 0; i < selectedItems.length; i++) {
+      print(selectedItems[i].start.toString());
+      str += selectedItems[i].start.toString() +
+          ',' +
+          selectedItems[i].end.toString() +
+          "\n";
     }
     return str;
   }
@@ -73,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
         onTap: (int index) {
-          if (index == 0) Navigator.pushReplacementNamed(context, '/');
+          // if (index == 0) Navigator.pushReplacementNamed(context, '/');
           if (index == 1) Navigator.pushReplacementNamed(context, '/archive');
         },
         items: [
@@ -94,6 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
               items.add(WorkAtDay(
                   start: DateTime.now(), end: DateTime.now(), selected: false));
             });
+            FileReader.writeFile('data', itemsToString());
             print("writing");
           }),
       appBar: AppBar(
@@ -200,11 +216,17 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             DataCell(IconButton(
                                 icon: Icon(Icons.delete),
-                                onPressed: () => setState(
-                                      () {
-                                        items.remove(e);
-                                      },
-                                    ))),
+                                onPressed: () => FileReader.appendFile(
+                                        "archive",
+                                        e.start.toString() +
+                                            ',' +
+                                            e.end.toString() +
+                                            "\n")
+                                    .then((value) => setState(
+                                          () {
+                                            items.remove(e);
+                                          },
+                                        )))),
                           ],
                           selected: e.selected,
                           onSelectChanged: (value) {
@@ -254,14 +276,61 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () => FileReader.writeFile('data', itemsToString())),
             IconButton(
                 onPressed: () {
-                  setState(() {
-                    items.removeWhere((element) => element.selected == true);
-                  });
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                            title: Text("هل تريد حذف البيانات؟"),
+                            actions: [
+                              TextButton(
+                                  child: Text("نعم"),
+                                  onPressed: () {
+                                    FileReader.appendFile(
+                                            'archive', selectedItemsToString())
+                                        .then((value) {
+                                      setState(() {
+                                        items.removeWhere((element) =>
+                                            element.selected == true);
+                                      });
+                                      FileReader.writeFile(
+                                              'data', itemsToString())
+                                          .then((value) {
+                                        Navigator.pop(context);
+                                      });
+                                    });
+                                  })
+                            ]);
+                      });
                 },
                 icon: Icon(
                   Icons.delete_forever,
                 )),
-          ])
+          ]),
+          ElevatedButton.icon(
+              onPressed: () {
+                if (timer == false)
+                  FileReader.writeFile("timer", "${DateTime.now()}")
+                      .then((value) => setState(() {
+                            timer = true;
+                          }));
+                else {
+                  String start = "";
+                  FileReader.readFile("timer").then((value) {
+                    start = value;
+                    setState(() {
+                      timer = false;
+                      items.add(WorkAtDay(
+                          start: DateTime.parse(start),
+                          end: DateTime.now(),
+                          selected: false));
+                    });
+                    FileReader.writeFile('data', itemsToString())
+                        .then((value) {});
+                  });
+                }
+              },
+              icon: timer ? Icon(Icons.pause) : Icon(Icons.play_arrow),
+              label: timer ? Text("توقف المؤقت") : Text("بدء المؤقت"))
         ]))
       ]),
     );
