@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 import 'view/HomePage.dart';
 import 'view/ArchivePage.dart';
 
@@ -20,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       routes: {
         '/': (context) => MyHomePage(title: 'حاسب ساعات العمل'),
-        '/archive': (context) => ArchivePage(),
+        '/archive': (context) => ArchivePage(title: "الارشيف"),
       },
       initialRoute: '/',
       theme: ThemeData(
