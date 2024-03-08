@@ -8,8 +8,7 @@ A Flutter Application that aims to help the employees to record the working hour
 
 ## Views
 
-<div align='space-between' > 
-sdsd
+<div align='center' > 
 <img width='200px' src='assets/screenshots/WhatsApp Image 2024-03-08 at 22.45.37_550bd668.jpg'/>
 </div>
 <div align='center' > 
