@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_application_1/utils/TimeFormator.dart';
+
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 import '../model/WorkAtDay.dart';
+import '../utils/FileReader.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -25,51 +25,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<WorkAtDay> items = [];
-  int selectedITems = 0;
-  var reuslt = "0";
-  Future<String> getLocalPath() async {
-    var dir = await getApplicationCacheDirectory();
-    return dir.path;
-  }
-
-  Future<File> getLocalFile() async {
-    String path = await getLocalPath();
-    return File('$path/test.txt');
-  }
-
-  Future<File> writeFile() async {
-    File file = await getLocalFile();
+  String itemsToString() {
     String str = "";
     for (int i = 0; i < items.length; i++) {
       print(items[i].start.toString());
       str += items[i].start.toString() + ',' + items[i].end.toString() + "\n";
     }
-
-    return file.writeAsString(str);
+    return str;
   }
 
-  Future<String> readFile() async {
-    try {
-      final file = await getLocalFile();
-      String content = await file.readAsString();
-      return content;
-    } catch (e) {
-      print("Couldn't read file");
-    }
-    return "";
-  }
-
-  String getTimeString(int value) {
-    final int hour = value ~/ 60;
-    final int minutes = value % 60;
-    return '${hour.toString().padLeft(2, "0")}:${minutes.toString().padLeft(2, "0")}';
-  }
+  int selectedITems = 0;
+  var reuslt = "0";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    readFile().then((value) {
+    FileReader.readFile("data").then((value) {
       var list = value.split('\n');
       print(list);
       List<WorkAtDay> newItems = [];
@@ -122,8 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
               items.add(WorkAtDay(
                   start: DateTime.now(), end: DateTime.now(), selected: false));
             });
-            writeFile();
-            print("writing ss");
+            print("writing");
           }),
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
@@ -222,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             DataCell(
                               Text(
-                                getTimeString(
+                                TimerFormator.getTimeString(
                                     e.end.difference(e.start).inMinutes),
                                 textAlign: TextAlign.center,
                               ),
@@ -272,13 +243,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     for (int i = 0; i < items.length; i++) {
                       res += items[i].end.difference(items[i].start).inMinutes;
                     }
-                    reuslt = getTimeString(res);
+                    reuslt = TimerFormator.getTimeString(res);
                   });
                 }
               },
               child: Text("حساب المجموع الكلي")),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ElevatedButton(child: Text("حفظ البيانات"), onPressed: writeFile),
+            ElevatedButton(
+                child: Text("حفظ البيانات"),
+                onPressed: () => FileReader.writeFile('data', itemsToString())),
             IconButton(
                 onPressed: () {
                   setState(() {
